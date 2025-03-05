@@ -18,21 +18,19 @@ import es.ignaciopomar.dbschema.types.DbErrorCode;
 public class DbSchema
 {
 	// Se asume que estas clases están definidas en tu proyecto
-	private SchemaVariables		schemaVariables;
+	private SchemaVariables		 schemaVariables = new SchemaVariables ();
 
-	private List <DbBridge>		dbBridges = new ArrayList <DbBridge> ();
+	private List <DbBridge>		 dbBridges		 = new ArrayList <DbBridge> ();
 
 	// private MariadbInfo mariadbInfo;
 	// private SQliteInfo sqliteInfo;
 
-	private static final Logger	logger	  = Logger.getLogger (DbSchema.class.getName ());
+	private final DbSchemaLogger logger;
 
 	// Constructor
-	public DbSchema ()
+	public DbSchema (DbSchemaLogger logger)
 	{
-		this.schemaVariables = new SchemaVariables ();
-		// this.mariadbInfo = new MariadbInfo ();
-		// this.sqliteInfo = new SQliteInfo ();
+		this.logger = logger;
 	}
 
 	public void addDbBridge (DbBridge dbBridge)
@@ -62,19 +60,22 @@ public class DbSchema
 	 */
 	public boolean createOrUpdate (Path schemaPath)
 	{
-		logger.fine ("----- Updating Schema: Start -----");
+		this.logger.info ("----- Updating Schema: Start -----");
 
 		boolean retVal = false;
 		boolean hasAnyBridge = false;
 		for (DbBridge dbBridge : this.dbBridges)
 		{
-			if (!hasAnyBridge)
+			if (dbBridge != null)
 			{
-				hasAnyBridge = true;
-				retVal = true;
-			}
+				if (!hasAnyBridge)
+				{
+					hasAnyBridge = true;
+					retVal = true;
+				}
 
-			retVal = retVal && this.createOrUpdate (schemaPath, dbBridge);
+				retVal = retVal && this.createOrUpdate (schemaPath, dbBridge);
+			}
 		}
 
 		return retVal;
@@ -94,44 +95,36 @@ public class DbSchema
 					{
 						if (Files.isRegularFile (entry) && entry.getFileName ().toString ().endsWith (".json"))
 						{
-							TableSchema table = new TableSchema (entry, this.schemaVariables);
-							if (table.isValid ())
-							{ // Se asume que TableSchema posee el método isValid()
-								if (dbBridge.errCode == DbErrorCode.DB_NO_ERROR)
-								{
-									retVal = retVal && table.createOrUpdate (dbBridge);
-								}
-								if (this.sqliteInfo.isEnabled && this.sqliteInfo.errCode == DbErrorCode.DB_NO_ERROR)
-								{
-									retVal = retVal && table.createOrUpdate (bridgeSqlite);
-								}
+							TableSchema table = new TableSchema (entry, this.schemaVariables, this.logger);
+
+							if (dbBridge.getLastErrCode () == DbErrorCode.DB_NO_ERROR)
+							{
+								retVal = retVal && table.createOrUpdate (dbBridge);
 							}
 						}
 					}
 				}
-				logger.fine ("----- Updating Schema: END -----");
+				this.logger.info ("----- Updating Schema: END -----");
 				// Comentario: se puede definir un comportamiento para el caso de tablas que existan en la base de datos
 				return retVal;
 			}
 			else
 			{
-				logger.severe ("Schema Folder does not exist or is not accessible");
+				this.logger.error ("Schema Folder does not exist or is not accessible");
 				return false;
 			}
 		}
 		catch (IOException e)
 		{
-			logger.severe ("Filesystem error: " + e.getMessage ());
+			this.logger.error ("Filesystem error: " + e.getMessage ());
 			return false;
 		}
 		catch (Exception e)
 		{
-			logger.severe ("General error: " + e.getMessage ());
+			this.logger.error ("General error: " + e.getMessage ());
 			return false;
 		}
 
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	/**

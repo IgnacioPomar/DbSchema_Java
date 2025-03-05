@@ -16,10 +16,9 @@ import es.ignaciopomar.dbschema.types.FieldType;
 public class TableSchema extends TableStructure
 {
 
-	private static final Logger	logger = Logger.getLogger (TableSchema.class.getName ());
-
 	// Indica si el esquema es válido (se pudo parsear correctamente el JSON).
-	public boolean				isValid;
+	public boolean				 isValid;
+	private final DbSchemaLogger logger;
 
 	/**
 	 * Constructor que carga el esquema de la tabla desde el archivo ubicado en tablePath.
@@ -28,9 +27,11 @@ public class TableSchema extends TableStructure
 	 *            Ruta al archivo JSON con la definición de la tabla.
 	 * @param schemaVariables
 	 *            Variables de esquema para resolver nombres (en caso de "varSchema").
+	 * @param logger
 	 */
-	public TableSchema (Path tablePath, SchemaVariables schemaVariables)
+	public TableSchema (Path tablePath, SchemaVariables schemaVariables, DbSchemaLogger logger)
 	{
+		this.logger = logger;
 		isValid = true;
 		try
 		{
@@ -151,12 +152,12 @@ public class TableSchema extends TableStructure
 		}
 		catch (IOException e)
 		{
-			logger.severe ("Error reading file: " + e.getMessage ());
+			logger.error ("Error reading file: " + e.getMessage ());
 			isValid = false;
 		}
 		catch (Exception e)
 		{
-			logger.severe ("Error parsing JSON: " + e.getMessage ());
+			logger.error ("Error parsing JSON: " + e.getMessage ());
 			isValid = false;
 		}
 	}
@@ -217,7 +218,7 @@ public class TableSchema extends TableStructure
 		boolean created = dbBridge.execute (sql.toString (), this.getSchemaName ());
 		if (!created)
 		{
-			logger.severe (tablename + " " + dbBridge.getDbInfo ());
+			logger.error (tablename + " " + dbBridge.getErrorDescription ());
 			return false;
 		}
 		// Crear índices secundarios.
@@ -236,7 +237,7 @@ public class TableSchema extends TableStructure
 		}
 		if (!created)
 		{
-			logger.severe (tablename + " " + dbBridge.getDbInfo ());
+			logger.error (tablename + " " + dbBridge.getErrorDescription ());
 		}
 		else
 		{
@@ -395,7 +396,7 @@ public class TableSchema extends TableStructure
 		// Ejecutar los comandos SQL si existen cambios
 		if (sql.length () == 0)
 		{
-			logger.fine ("KEEP_AS_IS:\t" + tablename);
+			logger.info ("KEEP_AS_IS:\t" + tablename);
 			return true;
 		}
 		else
@@ -403,7 +404,7 @@ public class TableSchema extends TableStructure
 			boolean retVal = dbBridge.executeBatch (sql.toString (), this.getSchemaName ());
 			if (!retVal)
 			{
-				logger.severe (tablename + " " + dbBridge.getDbInfo ());
+				logger.error (tablename + " " + dbBridge.getErrorDescription ());
 			}
 			else
 			{
