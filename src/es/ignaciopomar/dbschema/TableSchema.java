@@ -82,15 +82,15 @@ public class TableSchema extends TableStructure
 						if (fieldName != null)
 						{
 							Field fld = new Field ();
-							fld.setName (fieldName);
+							fld.name = fieldName;
 							// Parsear el tipo de campo (usa el método privado parseString)
 							String typeStr = fieldObj.optString ("type", "STRING");
-							fld.setType (FieldType.fromString (typeStr));
+							fld.type = FieldType.fromString (typeStr);
 							// Nota: se utiliza "lenght" (según el JSON original) para obtener el tamaño
-							fld.setSize (fieldObj.optInt ("lenght", 0));
+							fld.size = fieldObj.optInt ("lenght", 0);
 							// El campo "notnull" está comentado en el original
-							fld.setAutoIncrement (fieldObj.optBoolean ("autoincrement", false));
-							fld.setPosition (position++);
+							fld.isAutoIncrement = fieldObj.optBoolean ("autoincrement", false);
+							fld.position = position++;
 							// Agregar el campo a la lista de fields heredada de TableStructure
 							this.getFields ().add (fld);
 						}
@@ -196,7 +196,7 @@ public class TableSchema extends TableStructure
 		// Recorrer cada campo y generar la parte de definición de la columna.
 		for (Field field : this.getFields ())
 		{
-			sql.append (separator).append (field.getName ()).append (dbBridge.getColumnType (field));
+			sql.append (separator).append (field.name).append (dbBridge.getColumnType (field));
 			separator = ", ";
 		}
 		// Agregar clave primaria si se definieron campos en el índice primario.
@@ -310,11 +310,11 @@ public class TableSchema extends TableStructure
 		Map <String, Field> dbFldsMap = dbDef.getFieldsMap ();
 		for (Field field : this.getFields ())
 		{
-			Field dbFld = dbFldsMap.get (field.getName ());
+			Field dbFld = dbFldsMap.get (field.name);
 			if (dbFld == null)
 			{
 				// Campo nuevo
-				colChanges.append (colChangeSeparator).append ("ADD COLUMN ").append (field.getName ())
+				colChanges.append (colChangeSeparator).append ("ADD COLUMN ").append (field.name)
 				        .append (dbBridge.getColumnType (field));
 				if (lastFldName.isEmpty ())
 				{
@@ -328,12 +328,12 @@ public class TableSchema extends TableStructure
 			}
 			else
 			{
-				dbFld.setFound (true);
-				if (dbFld.getPosition () != field.getPosition () || !dbBridge.isCompatible (field, dbFld))
+				dbFld.found = true;
+				if (dbFld.position != field.position || !dbBridge.isCompatible (field, dbFld))
 				{
 					// Campo modificado
-					colChanges.append (colChangeSeparator).append ("CHANGE COLUMN ").append (dbFld.getName ())
-					        .append (" ").append (field.getName ()).append (dbBridge.getColumnType (field));
+					colChanges.append (colChangeSeparator).append ("CHANGE COLUMN ").append (dbFld.name).append (" ")
+					        .append (field.name).append (dbBridge.getColumnType (field));
 					if (lastFldName.isEmpty ())
 					{
 						colChanges.append (" FIRST");
@@ -345,14 +345,14 @@ public class TableSchema extends TableStructure
 					colChangeSeparator = ", ";
 				}
 			}
-			lastFldName = field.getName ();
+			lastFldName = field.name;
 		}
 		// Eliminar campos obsoletos
 		for (Field fld : dbDef.getFields ())
 		{
-			if (!fld.isFound ())
+			if (!fld.found)
 			{
-				colChanges.append (colChangeSeparator).append ("DROP COLUMN ").append (fld.getName ());
+				colChanges.append (colChangeSeparator).append ("DROP COLUMN ").append (fld.name);
 				colChangeSeparator = ", ";
 			}
 		}
