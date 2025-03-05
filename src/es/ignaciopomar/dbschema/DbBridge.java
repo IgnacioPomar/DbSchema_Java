@@ -1,6 +1,9 @@
 
 package es.ignaciopomar.dbschema;
 
+import es.ignaciopomar.dbschema.types.DbErrorCode;
+
+
 public interface DbBridge
 {
 
@@ -47,5 +50,9 @@ public interface DbBridge
 	boolean isCompatible (Field schemaFld, Field dbFld);
 
 	void dropAllTablesFromSchema (String schema);
+
+	DbErrorCode getLastErrCode ();
+
+	String getErrorDescription ();
 
 }
