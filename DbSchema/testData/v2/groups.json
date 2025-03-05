@@ -1,0 +1,22 @@
+{
+  "tablename": "weGroups",
+  "fields": [
+    {
+      "name": "idGrp",
+      "type": "INTEGER",
+      "autoincrement": true
+    },
+    {
+      "name": "grpName",
+      "type": "STRING",
+      "lenght": 50,
+      "label": "Name"
+    }
+  ],
+  "indexes": [
+    {
+      "fields": [ "idGrp" ],
+      "primary": true
+    }
+  ]
+}

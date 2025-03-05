@@ -1,0 +1,23 @@
+﻿{
+  "tablename": "tableV2",
+  "fields": [
+    {
+      "name": "tKey",
+      "type": "INTEGER"
+    },
+    {
+      "name": "tValue",
+      "type": "STRING",
+      "lenght": 22
+    }
+  ],
+  "indexes": [
+	{
+		"fields": [ "tKey" ]
+	},
+	{
+		"fields": [ "tValue" ],
+		"primary": true
+	}
+  ]
+}

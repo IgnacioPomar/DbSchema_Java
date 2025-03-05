@@ -1,0 +1,54 @@
+﻿{
+  "tablename": "crmCountries",
+  "varSchema": "clientDbname",
+  "fields": [
+    {
+      "name": "idCountry",
+      "type": "INTEGER",
+      "autoincrement": true,
+      "desc": "ccn3 ISO-3166"
+    },
+    {
+      "name": "nameCommon",
+      "type": "STRING",
+      "lenght": 100
+    },
+    {
+      "name": "nameOfficial",
+      "type": "STRING",
+      "lenght": 100
+    },
+    {
+      "name": "countryCode",
+      "type": "STRING",
+      "desc": "cca3 ISO-3166",
+      "lenght": 3
+    },
+    {
+      "name": "shortCode",
+      "type": "STRING",
+      "desc": "cca2 ISO-3166",
+      "lenght": 2
+    },
+    {
+      "name": "region",
+      "type": "STRING",
+      "lenght": 50
+    },
+    {
+      "name": "subregion",
+      "type": "STRING",
+      "lenght": 50
+    },
+    {
+      "name": "otherData",
+      "type": "JSON"
+    }
+  ],
+  "indexes": [
+    {
+      "fields": [ "idCountry" ],
+      "primary": true
+    }
+  ]
+}

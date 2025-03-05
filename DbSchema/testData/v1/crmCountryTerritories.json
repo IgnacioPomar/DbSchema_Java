@@ -1,0 +1,36 @@
+{
+  "tablename": "crmCountryTerritories",
+  "varSchema": "clientDbname",
+  "fields": [
+    {
+      "name": "idTerritory",
+      "type": "INTEGER",
+      "autoincrement": true,
+      "formType": "hidden"
+    },
+    {
+      "name": "idCountry",
+      "type": "INTEGER",
+      "desc": "ccn3 ISO-3166"
+    },
+    {
+      "name": "territoryCode",
+      "type": "STRING",
+      "lenght": 5
+    },
+    {
+      "name": "territoryName",
+      "type": "STRING",
+      "lenght": 50
+    }
+  ],
+  "indexes": [
+    {
+      "fields": [ "idTerritory" ],
+      "primary": true
+    },
+    {
+      "fields": [ "idCountry", "territoryCode" ]
+    }
+  ]
+}

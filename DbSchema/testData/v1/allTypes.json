@@ -1,0 +1,72 @@
+﻿{
+  "tablename": "allTypes",
+  "fields": [
+    {
+      "name": "tInt",
+      "type": "INTEGER"
+    },
+    {
+      "name": "tReal",
+      "type": "REAL"
+    },
+    {
+      "name": "tDecimal",
+      "type": "DECIMAL"
+    },
+    {
+      "name": "tBool",
+      "type": "BOOL"
+    },
+    {
+      "name": "tStringFixed",
+      "type": "STRING",
+      "lenght": 22
+    },
+    {
+      "name": "tStringLong",
+      "type": "STRING"
+    },
+    {
+      "name": "tText",
+      "type": "TEXT"
+    },
+    {
+      "name": "tJson",
+      "type": "JSON"
+    },
+    {
+      "name": "tBinaryFixed",
+      "type": "BINARY",
+      "lenght": 22
+    },
+    {
+      "name": "tBinaryLong",
+      "type": "BINARY"
+    },
+    {
+      "name": "tBlob",
+      "type": "BLOB"
+    },
+    {
+      "name": "tDate",
+      "type": "DATE"
+    },
+    {
+      "name": "tTime",
+      "type": "TIME"
+    },
+    {
+      "name": "tTimestamp",
+      "type": "TIMESTAMP"
+    },
+    {
+      "name": "tInet6",
+      "type": "INET6"
+    }
+  ],
+  "indexes": [
+    {
+      "fields": [ "tDate" ]
+    }
+  ]
+}

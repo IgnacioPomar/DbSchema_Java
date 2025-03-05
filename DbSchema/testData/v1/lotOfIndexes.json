@@ -1,0 +1,43 @@
+﻿{
+  "tablename": "lotOfIdx",
+  "fields": [
+    {
+      "name": "tInt",
+      "type": "INTEGER"
+    },
+    {
+      "name": "tStringFixed",
+      "type": "STRING",
+      "lenght": 22
+    },
+    {
+      "name": "tSecondString",
+      "type": "STRING",
+      "lenght": 22
+    },
+    {
+      "name": "tDate",
+      "type": "DATE"
+    },
+    {
+      "name": "tTime",
+      "type": "TIME"
+    }
+  ],
+  "indexes": [
+    {
+		"name":"idxDatetime",
+		"fields": [ "tDate", "tTime" ]
+    },
+	{
+		"fields": [ "tInt" ],
+		"primary": true
+	},
+	{
+		"fields": [ "tStringFixed" ]
+	},
+	{
+		"fields": [ "tSecondString" ]
+	}
+  ]
+}

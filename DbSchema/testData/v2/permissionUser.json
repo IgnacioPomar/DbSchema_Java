@@ -1,0 +1,34 @@
+﻿{
+  "tablename": "wePermissionsUsers",
+  "fields": [
+    {
+      "name": "mnuNode",
+      "type": "STRING",
+      "lenght": 50
+    },
+    {
+      "name": "plgName",
+      "type": "STRING",
+      "lenght": 50
+    },
+    {
+      "name": "idUser",
+      "type": "INTEGER"
+    },
+    {
+      "name": "permName",
+      "type": "STRING",
+      "lenght": 50
+    },
+    {
+      "name": "permValue",
+      "type": "INTEGER"
+    }
+  ],
+  "indexes": [
+    {
+      "fields": [ "mnuNode", "plgName", "idUser", "permName" ],
+      "primary": true
+    }
+  ]
+}
