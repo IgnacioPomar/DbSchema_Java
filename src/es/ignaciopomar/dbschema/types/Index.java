@@ -1,5 +1,5 @@
 
-package es.ignaciopomar.dbschema;
+package es.ignaciopomar.dbschema.types;
 
 import java.util.ArrayList;
 import java.util.List;

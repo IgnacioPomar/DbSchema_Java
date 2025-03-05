@@ -1,6 +1,8 @@
 
 package es.ignaciopomar.dbschema;
 
+import es.ignaciopomar.dbschema.types.Field;
+
 public interface SchemaObserver
 {
 	void addPrimaryIdxField (String fldName);

@@ -2,6 +2,7 @@
 package es.ignaciopomar.dbschema;
 
 import es.ignaciopomar.dbschema.types.DbErrorCode;
+import es.ignaciopomar.dbschema.types.Field;
 
 
 public interface DbBridge

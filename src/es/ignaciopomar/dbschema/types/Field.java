@@ -1,8 +1,5 @@
 
-package es.ignaciopomar.dbschema;
-
-import es.ignaciopomar.dbschema.types.FieldType;
-
+package es.ignaciopomar.dbschema.types;
 
 public class Field
 {

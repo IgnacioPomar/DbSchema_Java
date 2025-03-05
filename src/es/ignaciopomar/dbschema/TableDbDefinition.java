@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import es.ignaciopomar.dbschema.types.Field;
+import es.ignaciopomar.dbschema.types.Index;
+
 
 /**
  * Mantiene la definición de la tabla en la base de datos.

@@ -6,7 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
+import es.ignaciopomar.dbschema.types.Field;
 import es.ignaciopomar.dbschema.types.FieldType;
+import es.ignaciopomar.dbschema.types.Index;
 
 
 /**

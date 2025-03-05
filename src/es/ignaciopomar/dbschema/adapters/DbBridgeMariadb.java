@@ -2,9 +2,9 @@
 package es.ignaciopomar.dbschema.adapters;
 
 import es.ignaciopomar.dbschema.DbBridge;
-import es.ignaciopomar.dbschema.Field;
 import es.ignaciopomar.dbschema.SchemaObserver;
 import es.ignaciopomar.dbschema.types.DbErrorCode;
+import es.ignaciopomar.dbschema.types.Field;
 
 
 public class DbBridgeMariadb implements DbBridge

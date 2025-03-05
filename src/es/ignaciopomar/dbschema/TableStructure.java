@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.ignaciopomar.dbschema.types.Field;
+import es.ignaciopomar.dbschema.types.Index;
+
 
 /**
  * Almacena la estructura de una tabla, incluyendo sus campos, índices y el índice primario.
