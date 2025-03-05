@@ -80,7 +80,7 @@ public class TableStructure
 		Map <String, Index> idxsMap = new HashMap <> ();
 		for (Index idx : indexes)
 		{
-			idxsMap.put (idx.getName (), idx);
+			idxsMap.put (idx.name, idx);
 		}
 
 		return idxsMap;
@@ -92,7 +92,7 @@ public class TableStructure
 		Map <String, Field> fieldsMap = new HashMap <> ();
 		for (Field fld : fields)
 		{
-			fieldsMap.put (fld.getName (), fld);
+			fieldsMap.put (fld.name, fld);
 		}
 
 		return fieldsMap;

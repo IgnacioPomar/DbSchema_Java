@@ -44,7 +44,7 @@ public class TableDbDefinition extends TableStructure implements SchemaObserver
 	 */
 	public void addPrimaryIdxField (String fldName)
 	{
-		primary.getFields ().add (fldName);
+		primary.fields.add (fldName);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class TableDbDefinition extends TableStructure implements SchemaObserver
 		{
 			Index idx = new Index ();
 			idx.name = idxName;
-			idx.getFields ().add (fldName);
+			idx.fields.add (fldName);
 			indexes.add (idx);
 			idxsSet.add (idxName);
 		}
@@ -74,7 +74,7 @@ public class TableDbDefinition extends TableStructure implements SchemaObserver
 			{
 				if (idx.name.equals (idxName))
 				{
-					idx.getFields ().add (fldName);
+					idx.fields.add (fldName);
 					break;
 				}
 			}
@@ -91,7 +91,7 @@ public class TableDbDefinition extends TableStructure implements SchemaObserver
 	 */
 	public void addField (Field field)
 	{
-		field.setPosition (fieldPosition);
+		field.position = fieldPosition;
 		fieldPosition++;
 		fields.add (field);
 		// La asignación en fieldsMap se realiza en el método finish().
@@ -110,7 +110,7 @@ public class TableDbDefinition extends TableStructure implements SchemaObserver
 		}
 		for (Field fld : fields)
 		{
-			fieldsMap.put (fld.getName (), fld);
+			fieldsMap.put (fld.name, fld);
 		}
 	}
 

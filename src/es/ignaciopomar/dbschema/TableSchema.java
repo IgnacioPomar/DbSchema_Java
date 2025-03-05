@@ -127,12 +127,12 @@ public class TableSchema extends TableStructure
 							String idxName = indexObj.optString ("name", null);
 							if (idxName == null)
 							{
-								idx.setName (this.getTableName () + "_" + idxNum);
+								idx.name = this.getTableName () + "_" + idxNum;
 								idxNum++;
 							}
 							else
 							{
-								idx.setName (idxName);
+								idx.name = idxName;
 							}
 						}
 						// Procesar los campos del índice
@@ -144,7 +144,7 @@ public class TableSchema extends TableStructure
 								if (idxFields.get (j) instanceof String)
 								{
 									String idxField = idxFields.getString (j);
-									idx.getFields ().add (idxField);
+									idx.fields.add (idxField);
 								}
 							}
 						}
@@ -202,12 +202,12 @@ public class TableSchema extends TableStructure
 			separator = ", ";
 		}
 		// Agregar clave primaria si se definieron campos en el índice primario.
-		if (!this.getPrimary ().getFields ().isEmpty ())
+		if (!this.getPrimary ().fields.isEmpty ())
 		{
 			StringBuilder pk = new StringBuilder ();
 			String sep = "";
 			pk.append (", PRIMARY KEY (");
-			for (String idxField : this.getPrimary ().getFields ())
+			for (String idxField : this.getPrimary ().fields)
 			{
 				pk.append (sep).append (idxField);
 				sep = ", ";
@@ -226,10 +226,10 @@ public class TableSchema extends TableStructure
 		// Crear índices secundarios.
 		for (Index idx : this.getIdxs ())
 		{
-			StringBuilder idxSql = new StringBuilder ("CREATE INDEX " + idx.getName ());
+			StringBuilder idxSql = new StringBuilder ("CREATE INDEX " + idx.name);
 			idxSql.append (" ON " + tablename + " (");
 			String sep = "";
-			for (String idxField : idx.getFields ())
+			for (String idxField : idx.fields)
 			{
 				idxSql.append (sep).append (idxField);
 				sep = ", ";
@@ -266,9 +266,9 @@ public class TableSchema extends TableStructure
 		StringBuilder sql = new StringBuilder ();
 
 		// Revisar la clave primaria existente
-		if (!dbDef.getPrimary ().getFields ().isEmpty ())
+		if (!dbDef.getPrimary ().fields.isEmpty ())
 		{
-			if (!this.getPrimary ().getFields ().equals (dbDef.getPrimary ().getFields ()))
+			if (!this.getPrimary ().fields.equals (dbDef.getPrimary ().fields))
 			{
 				sql.append ("ALTER TABLE ").append (tablename).append (" DROP PRIMARY KEY; ");
 			}
@@ -283,13 +283,13 @@ public class TableSchema extends TableStructure
 		Map <String, Index> dbIdxsMap = dbDef.getIdxsMap ();
 		for (Index idx : this.getIdxs ())
 		{
-			Index dbIdx = dbIdxsMap.get (idx.getName ());
+			Index dbIdx = dbIdxsMap.get (idx.name);
 			if (dbIdx != null)
 			{
-				if (dbIdx.getFields ().equals (idx.getFields ()))
+				if (dbIdx.fields.equals (idx.fields))
 				{
-					dbIdx.setFound (true);
-					idx.setFound (true);
+					dbIdx.found = true;
+					idx.found = true;
 				}
 			}
 		}
@@ -297,10 +297,9 @@ public class TableSchema extends TableStructure
 		// Eliminar índices obsoletos
 		for (Index idx : dbDef.getIdxs ())
 		{
-			if (!idx.isFound ())
+			if (!idx.found)
 			{
-				sql.append ("ALTER TABLE ").append (tablename).append (" DROP INDEX ").append (idx.getName ())
-				        .append ("; ");
+				sql.append ("ALTER TABLE ").append (tablename).append (" DROP INDEX ").append (idx.name).append ("; ");
 			}
 		}
 
@@ -363,12 +362,12 @@ public class TableSchema extends TableStructure
 			sql.append ("ALTER TABLE ").append (tablename).append (" ").append (colChanges.toString ()).append ("; ");
 		}
 		// Si se modificó la clave primaria
-		if (!this.getPrimary ().getFields ().isEmpty () && !keepingPrimaryKey)
+		if (!this.getPrimary ().fields.isEmpty () && !keepingPrimaryKey)
 		{
 			StringBuilder pk = new StringBuilder ();
 			String sep = "";
 			pk.append ("ALTER TABLE ").append (this.getTableName ()).append (" ADD PRIMARY KEY (");
-			for (String idxField : this.getPrimary ().getFields ())
+			for (String idxField : this.getPrimary ().fields)
 			{
 				pk.append (sep).append (idxField);
 				sep = ",";
@@ -379,14 +378,14 @@ public class TableSchema extends TableStructure
 		// Crear índices que no se han marcado como existentes
 		for (Index idx : this.getIdxs ())
 		{
-			if (idx.isFound ())
+			if (idx.found)
 			{
 				continue;
 			}
-			StringBuilder idxSql = new StringBuilder ("CREATE INDEX " + idx.getName ());
+			StringBuilder idxSql = new StringBuilder ("CREATE INDEX " + idx.name);
 			idxSql.append (" ON " + tablename + " (");
 			String sep = "";
-			for (String idxField : idx.getFields ())
+			for (String idxField : idx.fields)
 			{
 				idxSql.append (sep).append (idxField);
 				sep = ",";

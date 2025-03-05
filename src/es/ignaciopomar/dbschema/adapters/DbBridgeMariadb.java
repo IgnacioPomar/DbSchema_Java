@@ -63,4 +63,18 @@ public class DbBridgeMariadb implements DbBridge
 
 	}
 
+	@Override
+	public DbErrorCode getLastErrCode ()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getErrorDescription ()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
