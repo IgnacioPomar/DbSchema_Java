@@ -1,10 +1,8 @@
 
 package es.ignaciopomar.dbschema;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,8 +28,8 @@ public class TableDbDefinition extends TableStructure implements SchemaObserver
 	public Map <String, Index> idxsMap		 = new HashMap <> ();
 
 	// Listas internas para almacenar campos e índices durante la construcción.
-	private List <Field>	   fields		 = new ArrayList <> ();
-	private List <Index>	   indexes		 = new ArrayList <> ();
+	// private List <Field> fields = new ArrayList <> ();
+	// private List <Index> indexes = new ArrayList <> ();
 
 	// Índice primario. Se asume que Index tiene un atributo "fields" (lista de nombres de campo).
 	private Index			   primary		 = new Index ();

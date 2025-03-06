@@ -37,7 +37,7 @@ class TableCreation
 		dbSchema.addDbBridge (new DbBridgeMariadb (cfg.getSrv (), cfg.getPort (), cfg.getUser (), cfg.getPass (),
 		        cfg.getDbname ()));
 
-		dbSchema.addVarSchema ("clientDbname", "pruebasOther");
+		dbSchema.addVarSchema ("clientDbname", cfg.getDbname2 ());
 
 		// ------------------- RESET DATA: START -------------------
 		dbSchema.dropAllTablesFromSchemaForUnitTest (null);

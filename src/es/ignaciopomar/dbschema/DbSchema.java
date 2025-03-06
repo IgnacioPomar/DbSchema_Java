@@ -35,7 +35,10 @@ public class DbSchema
 
 	public void addDbBridge (DbBridge dbBridge)
 	{
-		this.dbBridges.add (dbBridge);
+		if (dbBridge != null)
+		{
+			this.dbBridges.add (dbBridge);
+		}
 	}
 
 	/**
@@ -66,16 +69,15 @@ public class DbSchema
 		boolean hasAnyBridge = false;
 		for (DbBridge dbBridge : this.dbBridges)
 		{
-			if (dbBridge != null)
-			{
-				if (!hasAnyBridge)
-				{
-					hasAnyBridge = true;
-					retVal = true;
-				}
 
-				retVal = retVal && this.createOrUpdate (schemaPath, dbBridge);
+			if (!hasAnyBridge)
+			{
+				hasAnyBridge = true;
+				retVal = true;
 			}
+
+			retVal = retVal && this.createOrUpdate (schemaPath, dbBridge);
+
 		}
 
 		return retVal;

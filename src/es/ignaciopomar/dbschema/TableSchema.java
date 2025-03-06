@@ -375,7 +375,7 @@ public class TableSchema extends TableStructure
 		{
 			StringBuilder pk = new StringBuilder ();
 			String sep = "";
-			pk.append ("ALTER TABLE ").append (this.getTableName ()).append (" ADD PRIMARY KEY (");
+			pk.append ("ALTER TABLE ").append (tablename).append (" ADD PRIMARY KEY (");
 			for (String idxField : this.getPrimary ().fields)
 			{
 				pk.append (sep).append (idxField);

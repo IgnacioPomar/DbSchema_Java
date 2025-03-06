@@ -5,7 +5,7 @@ import es.ignaciopomar.dbschema.types.DbErrorCode;
 import es.ignaciopomar.dbschema.types.Field;
 
 
-public interface DbBridge
+public interface DbBridge extends AutoCloseable
 {
 
 	/**

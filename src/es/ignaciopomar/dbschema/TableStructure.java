@@ -15,11 +15,11 @@ import es.ignaciopomar.dbschema.types.Index;
  */
 public class TableStructure
 {
-	private String		 tableName;
-	private String		 schemaName;
-	private List <Field> fields	 = new ArrayList <> ();
-	private List <Index> indexes = new ArrayList <> ();
-	private Index		 primary = new Index ();
+	private String		   tableName;
+	private String		   schemaName;
+	protected List <Field> fields  = new ArrayList <> ();
+	protected List <Index> indexes = new ArrayList <> ();
+	private Index		   primary = new Index ();
 
 	public TableStructure ()
 	{
