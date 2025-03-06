@@ -1,11 +1,14 @@
 
 package es.ignaciopomar.dbschema;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
+
+import es.ignaciopomar.dbschema.testerutils.FakeLogger;
 
 
 class TableCreation
@@ -14,9 +17,11 @@ class TableCreation
 	@Test
 	void test ()
 	{
-		DbSchema dbSchema = new DbSchema ();
+		FakeLogger logger = new FakeLogger ();
 
-		dbSchema.addDbBridge (null);
+		DbSchema dbSchema = new DbSchema (logger);
+
+		// dbSchema.addDbBridge (null);
 
 		dbSchema.addVarSchema ("clientDbname", "pruebasOther");
 
@@ -28,20 +33,21 @@ class TableCreation
 		Path schemaPath_v1 = Path.of ("../test/data/v1/");
 		// Create the tables
 		dbSchema.createOrUpdate (schemaPath_v1);
-		UNIT_CHECK (logger.numCreated == 6);
-		UNIT_CHECK (logger.numErrors == 0);
-		UNIT_CHECK (logger.numUpdated == 0);
-		UNIT_CHECK (logger.numIgnored == 0);
+
+		assertEquals (logger.numErrors, 0);
+		assertEquals (logger.numCreated, 6);
+		assertEquals (logger.numUpdated, 0);
+		assertEquals (logger.numIgnored, 0);
 
 		// Update
 		// logger.reset();
 		Path schemaPath_v2 = Path.of ("../test/data/v2/");
 
 		dbSchema.createOrUpdate (schemaPath_v2);
-		UNIT_CHECK (logger.numErrors == 0);
-		UNIT_CHECK (logger.numCreated == 1);
-		UNIT_CHECK (logger.numUpdated == 2);
-		UNIT_CHECK (logger.numIgnored == 4);
+		assertEquals (logger.numErrors, 0);
+		assertEquals (logger.numCreated, 1);
+		assertEquals (logger.numUpdated, 2);
+		assertEquals (logger.numIgnored, 4);
 
 		fail ("Not yet implemented");
 	}
