@@ -32,7 +32,7 @@ public class TableDbDefinition extends TableStructure implements SchemaObserver
 	// private List <Index> indexes = new ArrayList <> ();
 
 	// Índice primario. Se asume que Index tiene un atributo "fields" (lista de nombres de campo).
-	private Index			   primary		 = new Index ();
+	// private Index primary = new Index ();
 
 	/**
 	 * Agrega un campo al índice primario.

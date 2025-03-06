@@ -19,7 +19,7 @@ public class TableStructure
 	private String		   schemaName;
 	protected List <Field> fields  = new ArrayList <> ();
 	protected List <Index> indexes = new ArrayList <> ();
-	private Index		   primary = new Index ();
+	protected Index		   primary = new Index ();
 
 	public TableStructure ()
 	{

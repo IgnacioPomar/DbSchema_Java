@@ -370,6 +370,7 @@ public class TableSchema extends TableStructure
 		{
 			sql.append ("ALTER TABLE ").append (tablename).append (" ").append (colChanges.toString ()).append ("; ");
 		}
+
 		// Si se modificó la clave primaria
 		if (!this.getPrimary ().fields.isEmpty () && !keepingPrimaryKey)
 		{

@@ -24,19 +24,23 @@ public class FakeLogger implements DbSchemaLogger
 		}
 		else if (logLevel == LogLevel.INFO)
 		{
-			if (message.contains ("CREATE"))
+			if (message.startsWith ("CREATE"))
 			{
 				numCreated++;
 			}
-			else if (message.contains ("UPDATE"))
+			else if (message.startsWith ("UPDATE"))
 			{
 				numUpdated++;
+			}
+			else if (message.startsWith ("KEEP"))
+			{
+				numIgnored++;
 			}
 
 		}
 		else if (logLevel == LogLevel.DEBUG)
 		{
-			numIgnored++;
+			// numIgnored++;
 		}
 		System.out.println (message);
 
