@@ -8,6 +8,7 @@
 
   <build>
     <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>testSrc</testSourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
