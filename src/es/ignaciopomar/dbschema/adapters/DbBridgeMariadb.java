@@ -14,6 +14,22 @@ public class DbBridgeMariadb implements DbBridge
 	public static final String errMsg				   = "";
 	public static final String sql					   = "";
 
+	// Real database connection data
+	private String			   server;
+	private int				   port;
+	private String			   user;
+	private String			   password;
+	private String			   dbName;
+
+	public DbBridgeMariadb (String srv, int port, String user, String pass, String dbname)
+	{
+		this.server = srv;
+		this.port = port;
+		this.user = user;
+		this.password = pass;
+		this.dbName = dbname;
+	}
+
 	@Override
 	public boolean execute (String query, String schema)
 	{

@@ -42,6 +42,12 @@ public class TableSchema extends TableStructure
 		{
 			// Leer el contenido completo del archivo
 			String content = new String (Files.readAllBytes (tablePath));
+
+			if (content.startsWith ("\uFEFF"))
+			{
+				content = content.substring (1);
+			}
+
 			JSONObject jobj = new JSONObject (content);
 
 			// Obtener el nombre de la tabla

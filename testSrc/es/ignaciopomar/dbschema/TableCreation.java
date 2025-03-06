@@ -8,7 +8,9 @@ import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 
+import es.ignaciopomar.dbschema.adapters.DbBridgeMariadb;
 import es.ignaciopomar.dbschema.testerutils.FakeLogger;
+import es.ignaciopomar.dbschema.testerutils.TestCfg;
 
 
 class TableCreation
@@ -17,20 +19,32 @@ class TableCreation
 	@Test
 	void test ()
 	{
+		// Check the configuration
+		TestCfg cfg = new TestCfg ();
+		cfg.loadCfg ();
+
+		if (!cfg.isConfigured ())
+		{
+			fail ("Configuration not found or incomplete");
+			// This test requires a configuration file with mariadb connection data
+			// In the database must exist two schemas
+		}
+
 		FakeLogger logger = new FakeLogger ();
 
 		DbSchema dbSchema = new DbSchema (logger);
 
-		// dbSchema.addDbBridge (null);
+		dbSchema.addDbBridge (new DbBridgeMariadb (cfg.getSrv (), cfg.getPort (), cfg.getUser (), cfg.getPass (),
+		        cfg.getDbname ()));
 
 		dbSchema.addVarSchema ("clientDbname", "pruebasOther");
 
 		// ------------------- RESET DATA: START -------------------
-		dbSchema.dropAllTablesFromSchemaForUnitTest ("pruebas");
-		dbSchema.dropAllTablesFromSchemaForUnitTest ("pruebasOther");
+		dbSchema.dropAllTablesFromSchemaForUnitTest (null);
+		dbSchema.dropAllTablesFromSchemaForUnitTest (cfg.getDbname2 ());
 		// ------------------- RESET DATA: END ---------------------
 
-		Path schemaPath_v1 = Path.of ("../test/data/v1/");
+		Path schemaPath_v1 = Path.of (cfg.getBasePath () + "testData/v1/");
 		// Create the tables
 		dbSchema.createOrUpdate (schemaPath_v1);
 
@@ -41,7 +55,7 @@ class TableCreation
 
 		// Update
 		// logger.reset();
-		Path schemaPath_v2 = Path.of ("../test/data/v2/");
+		Path schemaPath_v2 = Path.of (cfg.getBasePath () + "testData/v2/");
 
 		dbSchema.createOrUpdate (schemaPath_v2);
 		assertEquals (logger.numErrors, 0);
@@ -49,7 +63,6 @@ class TableCreation
 		assertEquals (logger.numUpdated, 2);
 		assertEquals (logger.numIgnored, 4);
 
-		fail ("Not yet implemented");
 	}
 
 }
