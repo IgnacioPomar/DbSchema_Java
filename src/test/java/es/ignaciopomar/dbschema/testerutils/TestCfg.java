@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.CodeSource;
 import java.util.Properties;
 
@@ -31,13 +33,18 @@ public class TestCfg
 	//
 	public String				  dbNameSecondary;
 
+	private String				  cfgPath;
+
 	/**
 	 * Constructor: check if we are in a jar file or in a development environment
 	 */
 	public TestCfg ()
 	{
-		boolean isInsideDebugger = java.lang.management.ManagementFactory.getRuntimeMXBean ().getInputArguments ()
-		        .toString ().indexOf ("-agentlib:jdwp") > 0;
+		/*
+		 * // Check if we are conected with eclipse debugger boolean isInsideDebugger =
+		 * java.lang.management.ManagementFactory.getRuntimeMXBean ().getInputArguments
+		 * () .toString ().indexOf ("-agentlib:jdwp") > 0;
+		 */
 
 		boolean isJarFile = this.setJarPath ();
 
@@ -52,11 +59,36 @@ public class TestCfg
 			this.jarName = this.mainClass;
 		}
 
-		if (isInsideDebugger && !isJarFile)
+		if (!isJarFile)
 		{
 			// We are in a development environment
 			this.setDebugBinFolder ();
+			this.findCfgPath ();
 		}
+		else
+		{
+			this.cfgPath = this.jarPath;
+		}
+
+	}
+
+	private void findCfgPath ()
+	{
+		Path currentDir = Path.of (this.jarPath);
+
+		while (currentDir != null)
+		{
+			Path cfgFile = currentDir.resolve (CFG_FILE_NAME);
+			if (Files.exists (cfgFile) && Files.isRegularFile (cfgFile))
+			{
+				this.cfgPath = currentDir.toString ();
+				return;
+			}
+			currentDir = currentDir.getParent ();
+		}
+
+		// No configuration file found: it'll fail to load the configuration
+		this.cfgPath = this.jarPath;
 
 	}
 
@@ -65,10 +97,6 @@ public class TestCfg
 	 */
 	private void setDebugBinFolder ()
 	{
-		File jarFile = new File (jarPath);
-		jarPath = jarFile.getParentFile ().getParentFile ().getPath ();
-		jarPath += File.separator;
-
 		// this.makeSureFolderExists (jarPath);
 
 		// change the current path to the jar path
@@ -108,7 +136,8 @@ public class TestCfg
 			this.jarPath = codeSource.getLocation ().toURI ().getPath ();
 			this.jarName = null;
 
-			// In development environment, the jar file does not exist, and the path is different
+			// In development environment, the jar file does not exist, and the path is
+			// different
 			if (jarPath.endsWith (".jar"))
 			{
 				File jarFile = new File (jarPath);
@@ -157,24 +186,14 @@ public class TestCfg
 	 */
 	public void loadCfg ()
 	{
-		// Potential cfgFolder
-		File jarFile = new File (jarPath);
-		String jarPath2 = jarFile.getParentFile ().getPath ();
-		jarPath2 += File.separator;
 
-		String[] folders = {jarPath, jarPath2 };
+		File folder = new File (this.cfgPath);
+		File file = new File (folder, CFG_FILE_NAME);
 
-		for (String folderPath : folders)
+		// Check if the file exists and is a regular file
+		if (file.exists () && file.isFile ())
 		{
-			File folder = new File (folderPath);
-			File file = new File (folder, CFG_FILE_NAME);
-
-			// Check if the file exists and is a regular file
-			if (file.exists () && file.isFile ())
-			{
-				this.loadCfg (file.getAbsolutePath ());
-				break; // Exit loop once the file is found
-			}
+			this.loadCfg (file.getAbsolutePath ());
 		}
 	}
 

@@ -13,7 +13,7 @@ import es.ignaciopomar.dbschema.testerutils.FakeLogger;
 import es.ignaciopomar.dbschema.testerutils.TestCfg;
 
 
-class TableCreation
+class TableCreationTestCase
 {
 
 	@Test
@@ -46,7 +46,7 @@ class TableCreation
 			dbSchema.dropAllTablesFromSchemaForUnitTest (cfg.getDbname2 ());
 			// ------------------- RESET DATA: END ---------------------
 
-			Path schemaPath_v1 = Path.of (cfg.getBasePath () + "testData/v1/");
+			Path schemaPath_v1 = Path.of (cfg.getBasePath () + "v1/");
 			// Create the tables
 			dbSchema.createOrUpdate (schemaPath_v1);
 
@@ -57,7 +57,7 @@ class TableCreation
 
 			// Update
 			logger.reset ();
-			Path schemaPath_v2 = Path.of (cfg.getBasePath () + "testData/v2/");
+			Path schemaPath_v2 = Path.of (cfg.getBasePath () + "v2/");
 
 			dbSchema.createOrUpdate (schemaPath_v2);
 			assertEquals (logger.numErrors, 0);
