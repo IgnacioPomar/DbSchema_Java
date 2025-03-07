@@ -2,23 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>es.ignaciopomar.dbschema</groupId>
   <artifactId>dbschema</artifactId>
-  <version>1.0.1-BETA</version>
+  <version>0.0.1-SNAPSHOT</version>
   <name>DbSchema</name>
   <description>Java library that manages database schema based on JSON description files.</description>
-
-  <build>
-    <sourceDirectory>src</sourceDirectory>
-    <testSourceDirectory>testSrc</testSourceDirectory>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.13.0</version>
-        <configuration>
-          <release>23</release>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
   <dependencies>
   	<dependency>
   		<groupId>org.mariadb.jdbc</groupId>
