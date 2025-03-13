@@ -191,10 +191,14 @@ public class DbBridgeMariadb implements DbBridge
 			return " DATE ";
 		case TIME:
 			return " TIME ";
+		case DATETIME:
+			return " DATETIME ";
 		case TIMESTAMP:
 			return " TIMESTAMP ";
 		case INET6:
 			return " INET6 ";
+		case UUID:
+			return " UUID ";
 		default:
 			return "VARCHAR(255)";
 		}

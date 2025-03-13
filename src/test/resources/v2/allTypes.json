@@ -57,6 +57,10 @@
       "name": "tTime",
       "type": "TIME"
     },
+	{
+		"name": "tDateTime",
+	  	"type": "DATETIME"
+	},
     {
       "name": "tTimestamp",
       "type": "TIMESTAMP"
@@ -64,7 +68,11 @@
     {
       "name": "tInet6",
       "type": "INET6"
-    }
+    },
+	{
+		"name": "tUuid",
+		"type": "UUID"
+	}
   ],
   "indexes": [
     {

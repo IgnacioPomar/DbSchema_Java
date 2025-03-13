@@ -7,7 +7,7 @@ import java.util.Map;
 
 public enum FieldType
 {
-	INTEGER, REAL, DECIMAL, BOOL, STRING, TEXT, JSON, BINARY, BLOB, DATE, TIME, TIMESTAMP, INET6;
+	INTEGER, REAL, DECIMAL, BOOL, STRING, TEXT, JSON, BINARY, BLOB, DATE, TIME, TIMESTAMP, DATETIME, INET6, UUID;
 
 	private static final Map <String, FieldType> lookup = new HashMap <> ();
 
