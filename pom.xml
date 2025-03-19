@@ -5,6 +5,11 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>DbSchema</name>
   <description>Java library that manages database schema based on JSON description files.</description>
+  <properties>
+    <maven.compiler.source>23</maven.compiler.source>
+    <maven.compiler.target>23</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
   <dependencies>
   	<dependency>
   		<groupId>org.mariadb.jdbc</groupId>
